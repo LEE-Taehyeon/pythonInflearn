@@ -60,3 +60,95 @@ print("{0:.2f}" .format(5/3)) # .2 : 소수점 2번째자리까지만 출력(소
 
 
 # 파일 입출력
+score_file = open("score.txt", "w", encoding="utf8") # 처음 "" : 파일이름, 두번째 "W" : 쓰기위한 목적, encoding="utf8" : utf8 을 해주지 않으면 한글을 가져올 때 깨질 수 있다.
+print("수학 : 0", file=score_file)
+print("영어 : 50", file=score_file)
+score_file.close() # 파일을 열면 무조건 닫아주어야 한다.
+# 1. open 으로 score.txt 파일을 쓰기 목적으로 열고
+# 2. print 문을 파일에 쓰고 (score.txt 파일이 생성)
+# 3. 파일을 닫는다.
+
+score_file = open("score.txt", "a", encoding="utf8") # 내용을 덮어쓰는게 아니라 이어서 쓰고 싶으면 "a"
+score_file.write("과학 : 80")
+score_file.write("\n코딩 : 100") # print 문으로 작성하면 자동 줄바꿈이 되는데 write 로 하면 줄바꿈 안됨.
+score_file.close()
+
+score_file = open("score.txt", "r", encoding="utf8") # "r" : read
+print(score_file.read())
+score_file.close()
+
+score_file = open("score.txt", "r", encoding="utf8") # "r" : read
+print(score_file.readline(), end="") # 한줄씩 읽어오고, 커서는 다음줄로 이동
+print(score_file.readline()) 
+print(score_file.readline()) 
+# print(score_file.readline()) 
+
+# 출력해야 하는 파일의 줄 수를 모를때.
+score_file = open("score.txt", "r", encoding="utf8")
+while True:
+    line = score_file.readline()
+    if not line:
+        break
+    print(line)
+score_file.close()
+
+score_file = open("score.txt", "r", encoding="utf8")
+lines = score_file.readlines() # 모든 라인을 가져와서 list 형태로 저장
+for line in lines:
+    print(line, end="")
+    
+score_file.close()
+
+
+# pickly : 프로그램 상에서 사용하고 있는 데이터를 파일형태로 저장하는 것
+#           갖고 있는 데이터를 pickle 을 이용하여 어떤 파일에 저장하고, 해당 내용을 load 를 통해 불러와서 변수에 저장해서 사용할 수 있게 해주는 라이브러리.
+import pickle
+profile_file = open("profile.pickle", "wb", ) # pickly 을 사용하기 위해선 b(binary) 를 설정해주어야 하고, encoding 은 따로 안해도 된다.
+profile = {"이름":"박명수", "나이":30, "취미":["축구", "골프", "코딩"]}
+print(profile)
+
+# pickly 을 이용해서 이 데이터를 파일에 써야한다.
+pickle.dump(profile, profile_file) # profile 에 있는 정보를 파일에 저장.
+profile_file.close()
+
+profile_file = open("profile.pickle", "rb")
+profile_= pickle.load(profile_file) # 파일에 있는 정보를 profile 에 불러오기
+print(profile)
+profile_file.close()
+
+
+# with
+import pickle
+
+with open("profile.pickle", "rb") as profile_file:  # 이 파일 정보를 profile_file 라는 변수에 저장
+    print(pickle.load(profile_file))
+# 따로 close 문이 없어도 된다.
+
+with open("study.txt", "w", encoding="utf8") as study_file:
+    study_file.write("파이썬을 열심히 공부하고 있어요.")
+    
+with open("study.txt", "r", encoding="utf8") as study_file:
+    print(study_file.read())
+    
+
+'''
+    Quiz) 당신의 회사에서는 매주 1회 작성해야 하는 보고서가 있습니다.
+    보고서는 항상 아래와 같은 형태로 출력되어야 합니다.
+    
+    - x 주차 주간보고 -
+    부서 :
+    이름 : 
+    업무 요약 : 
+    1 ~ 50 주차까지의 보고서 파일을 만드는 프로그램을 작성하시오.
+    
+    조건 : 파일명은 '1주차.txt', '2주차.txt', ... 와 같이 만듭니다.
+'''
+
+for number in range(1,11): # 50 주차는 너무 많으니 10 주차까지
+    with open(f"{number}주차.txt", "w", encoding="utf8") as week_reports: # 이 파일 정보를 week_reports 라는 변수에 저장
+        week_reports.write(f" {number} 주차 주간보고 -")
+        week_reports.write("\n부서 : ")
+        week_reports.write("\n이름 : ")
+        week_reports.write("\n업무 요약 : ")
+
+
