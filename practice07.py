@@ -103,7 +103,7 @@ score_file.close()
 # pickly : 프로그램 상에서 사용하고 있는 데이터를 파일형태로 저장하는 것
 #           갖고 있는 데이터를 pickle 을 이용하여 어떤 파일에 저장하고, 해당 내용을 load 를 통해 불러와서 변수에 저장해서 사용할 수 있게 해주는 라이브러리.
 import pickle
-profile_file = open("profile.pickle", "wb", ) # pickly 을 사용하기 위해선 b(binary) 를 설정해주어야 하고, encoding 은 따로 안해도 된다.
+profile_file = open("profile.pickle", "wb") # pickly 을 사용하기 위해선 b(binary) 를 설정해주어야 하고, encoding 은 따로 안해도 된다.
 profile = {"이름":"박명수", "나이":30, "취미":["축구", "골프", "코딩"]}
 print(profile)
 
